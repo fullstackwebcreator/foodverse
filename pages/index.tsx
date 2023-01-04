@@ -1,10 +1,101 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next"
+import Head from "next/head"
+import { useRouter } from "next/router"
+import styles from "../styles/Main.module.scss"
 import { useSession, signIn, signOut } from "next-auth/react"
+import {
+  Container,
+  Card,
+  Row,
+  Text,
+  Input,
+  Button,
+  Spacer,
+  Image,
+  Grid,
+} from "@nextui-org/react"
+import { ChangeEvent, MouseEvent, MouseEventHandler, useState } from "react"
+import { Console } from "console"
 
 const Home: NextPage = () => {
+  const router = useRouter()
+  const [isOtpSent, setIsOtpSent] = useState(false)
+
+  const changeFlag = () => {
+    setIsOtpSent(!isOtpSent)
+  }
+
+  const changeFocus = (e: ChangeEvent) => {
+    e.preventDefault()
+    console.log(e.target.nextSibling)
+  }
+
+  const verifyOtpHandler = () => {
+    router.push("/home")
+  }
+
+  const sendOtpHtml = () => {
+    return (
+      <>
+        <Text
+          h6
+          css={{ textAlign: "center" }}
+        >{`We recommend adding Your Phone Number for better user experience. We will send otp on this number to verify`}</Text>
+        <Spacer y={1} />
+        <Input labelLeft="+91" placeholder="Enter Phone Number" />
+        <Spacer y={1} />
+        <Button onClick={changeFlag}>{`SEND OTP`}</Button>
+      </>
+    )
+  }
+
+  const verifyOtpHtml = () => {
+    return (
+      <>
+        <Text
+          h6
+          css={{ textAlign: "center" }}
+        >{`We recommend adding Your Phone Number for better user experience. We will send otp on this number to verify`}</Text>
+        <Spacer y={1} />
+        <Grid.Container gap={1} justify="center">
+          <Grid xs={3}>
+            <Input
+              bordered
+              maxLength={1}
+              css={{ alignSelf: "center", textAlign: "center" }}
+              onChange={changeFocus}
+            />
+          </Grid>
+          <Grid xs={3}>
+            <Input
+              bordered
+              maxLength={1}
+              css={{ alignSelf: "center", textAlign: "center" }}
+              onChange={changeFocus}
+            />
+          </Grid>
+          <Grid xs={3}>
+            <Input
+              bordered
+              maxLength={1}
+              css={{ alignSelf: "center", textAlign: "center" }}
+              onChange={changeFocus}
+            />
+          </Grid>
+          <Grid xs={3}>
+            <Input
+              bordered
+              maxLength={1}
+              css={{ alignSelf: "center", textAlign: "center" }}
+            />
+          </Grid>
+        </Grid.Container>
+        <Spacer y={1} />
+        <Button onClick={verifyOtpHandler}>{`VERIFY OTP`}</Button>
+      </>
+    )
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,7 +105,47 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <button onClick={() => signIn()}>Sign in</button>
+        <Container fluid>
+          <Card style={{ maxWidth: "400px", margin: "auto" }}>
+            <Card.Header>
+              <Row justify="center" align="center">
+                <Button.Group color="gradient" ghost>
+                  <Image
+                    width={64}
+                    height={64}
+                    src="/foodverselogo.png"
+                    alt="Default Image"
+                    objectFit="cover"
+                  />
+                  <Text
+                    css={{
+                      textGradient: "45deg, $blue600 -20%, $red600 50%",
+                      alignSelf: "center",
+                      marginBottom: "unset",
+                      marginLeft: "1rem",
+                    }}
+                    h2
+                  >
+                    Foodverse
+                  </Text>
+                </Button.Group>
+              </Row>
+            </Card.Header>
+            <Card.Body style={{ margin: "auto" }}>
+              {isOtpSent ? verifyOtpHtml() : sendOtpHtml()}
+            </Card.Body>
+            <Card.Footer>
+              <Text blockquote>
+                <Text h6 css={{ textAlign: "center" }}>
+                  <span>{`By providing your phone number we consider that you agreed with our `}</span>
+                  <span>{`Terms and Conditions `}</span>
+                  <span>{`and `}</span>
+                  <span>{`Privacy Policy.`}</span>
+                </Text>
+              </Text>
+            </Card.Footer>
+          </Card>
+        </Container>
       </main>
     </div>
   )

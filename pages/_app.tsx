@@ -8,7 +8,7 @@ import themeConfig from "../theme.config"
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const theme = createTheme(themeConfig)
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={0}>
       <NextUIProvider theme={theme}>
         <NextNProgress color="#5B68E4" options={{ showSpinner: false }} />
         <Component {...pageProps} />

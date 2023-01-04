@@ -9,6 +9,9 @@ export const authOptions = {
     }),
   ],
   secret: `${process.env.NEXT_PUBLIC_SECRET}`,
+  theme: {
+    colorScheme: "dark",
+  },
 }
 
 export default NextAuth(authOptions)
